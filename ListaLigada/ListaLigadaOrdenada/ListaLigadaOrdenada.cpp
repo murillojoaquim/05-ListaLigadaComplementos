@@ -125,29 +125,101 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
-	if (primeiro == NULL)
-	{
+	if (primeiro == NULL) {
+
 		primeiro = novo;
 	}
-	else
-	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+	else if (primeiro->valor == novo->valor) {
+		cout << "Elemento já presente!" << endl;
+	}
+	else {
+		NO* ant = NULL;
+		NO* valorAtual = primeiro;
+
+		while (valorAtual != NULL) {
+			if (valorAtual->valor < novo->valor) {
+				ant = valorAtual;
+			}
+			else if (valorAtual->valor == novo->valor) {
+				cout << "Elemento já presente!" << endl;
+			}
+			else {
+				return;
+			}
+			valorAtual = valorAtual->prox;
 		}
-		aux->prox = novo;
+		if (ant == NULL) {
+			novo->prox = primeiro;
+			primeiro = novo;
+		}
+		else {
+			ant->prox = novo;
+			novo->prox = valorAtual;
+		}
 	}
 }
 
 void excluirElemento()
 {
+	NO* valorAtual, * anterior;
+	anterior = NULL;
+	int deletar;
 
+	if (primeiro == NULL) {
+		cout << "A lista está vazia!" << endl;
+	}
+	else {
+		cout << "Digite qual será o valor que voce deseja exluir: ";
+		cin >> deletar;
+		valorAtual = primeiro;
+
+		while (valorAtual != NULL) {
+			if (valorAtual->valor == deletar) {
+				if (anterior == NULL) {
+					primeiro = valorAtual->prox;
+				}
+				else {
+					anterior->prox = valorAtual->prox;
+				}
+				free(valorAtual);
+				cout << "Valor deletado!" << endl;
+				return;
+			}
+			anterior = valorAtual;
+			valorAtual = valorAtual->prox;
+		}
+
+		cout << "Valor nao presente!" << endl;
+	}
 }
 
 void buscarElemento()
 {
+	{
+		NO* aux = primeiro;
+		int achado = false;
+		int buscar;
 
+		if (primeiro == NULL) {
+			cout << "A lista esta vazia!" << endl;
+		}
+		else {
+			cout << "Digite o valor que deseja buscar: ";
+			cin >> buscar;
+
+			while (aux != NULL) {
+				if (aux->valor == buscar) {
+					cout << "O valor foi encontrado!" << endl;
+					achado = true;
+					break;
+				}
+				aux = aux->prox;
+			}
+			if (!achado) {
+				cout << "O valor nao foi encontrado!" << endl;
+			}
+		}
+	}
 }
 
 
